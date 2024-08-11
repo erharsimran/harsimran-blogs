@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title id="title">Home</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+
+
+    <div class="container">
+
+        <div class="navbar">
+
+            <img class="logo" src="/images/logo.png" alt="Home" />
+            <a href="/home" id="home">Home</a>
+            <% allPosts.forEach(allPosts=> { %>
+                <a href=" <%= siteUrl %>?title=<%= allPosts.title %>" id="<%= allPosts.title %>">
+                    <%= allPosts.title %>
+                </a>
+                <% }); %>
+                    <div class="dropdown">
+                        <button id="admin" class="dropbtn">Admin
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a id="create" href="/page/create">Create New Post</a>
+                            <a id="all" href="/page/all">Manage Posts</a>
+                        </div>
+                    </div>
+                    <div class="dropdown split">
+                        <button class="dropbtn"> Welcome, <%= user.name %>
+                                <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="/user/logout">Logout</a>
+                        </div>
+                    </div>
+        </div>
+        <div class="content">
+            <script>
+                function setActiveLink() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    console.log(urlParams);
+                    const title = urlParams.get('title');
+
+                    if (title && title !== '') {
+                        const $activeLink = $('#' + title);
+                        if ($activeLink.length) {
+                            $('#title').text(title);
+                            $activeLink.addClass('active');
+                        }
+                    } else {
+                        const pathname = window.location.pathname;
+                        const lastPathSegment = pathname.split('/').filter(Boolean).pop();
+                        if (lastPathSegment === 'create') {
+                            $('#title').text(
+                                'Admin/Create New Post'
+                            );
+                            $('#admin').addClass('active');
+                            $('#create').addClass('active');
+                        } else if (lastPathSegment === 'all') {
+                            $('#title').text(
+                                'Admin/Manage Posts'
+                            );
+                            $('#admin').addClass('active');
+                            $('#all').addClass('active');
+                        } else {
+                            $('#home').addClass('active');
+                        }
+                    }
+                }
+
+                $(window).on('load', setActiveLink);
+
+            </script>

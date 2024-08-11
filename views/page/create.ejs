@@ -1,0 +1,66 @@
+<%- include('../common/heading') %>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+    <div class="background">
+
+    </div>
+
+    <h3 class="editPostHeading">
+        <%= page ? 'Edit Post' : 'Create New Post' %>
+    </h3>
+
+    <form method="POST" action="<%= page ? '/page/update/' + page._id : '/page/create' %>" class="create-form">
+        <label for="title" class="create-label">Title</label>
+        <input type="text" placeholder="Title" value="<%= page ? page.title : '' %>" required name="title"
+            class="create-input">
+
+        <div id="editor" class="create-editor">
+            <%- page ? page.content : '' %>
+        </div>
+        <textarea id="content" name="content" class="create-textarea" style="display:none;"></textarea>
+
+        <button type="submit" class="create-button">
+            <%= page ? 'Update' : 'Create' %>
+        </button>
+    </form>
+
+    </body>
+    <script>
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    ['image', 'code-block'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }]
+                ]
+            }
+        });
+        quill.getModule('toolbar').addHandler('image', function () {
+            var input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.click();
+
+            input.onchange = function () {
+                var file = input.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var base64Image = e.target.result;
+                    var range = quill.getSelection();
+                    quill.insertEmbed(range.index, 'image', base64Image);
+                };
+                reader.readAsDataURL(file);
+            };
+        });
+
+        // Update hidden textarea before submitting the form
+        document.querySelector('form').onsubmit = function () {
+            var content = document.querySelector('textarea[name=content]');
+            content.value = quill.root.innerHTML;
+        };
+    </script>
+
+    <%- include('../common/footer') %>

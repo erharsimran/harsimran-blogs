@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form method="POST" action="/user/register">
+        <h3>Register</h3>
+        <label for="email">Name</label>
+        <input type="text" placeholder="Name" name="name">
+        <% if (errors && errors.name) { %>
+            <span class="error">
+                <%= errors.name %>
+            </span>
+            <% } %>
+                <label for="email">Email</label>
+                <input type="text" placeholder="Email" name="email">
+                <% if (errors && errors.email) { %>
+                    <span class="error">
+                        <%= errors.email %>
+                    </span>
+                    <% } %>
+                        <label for="password">Password</label>
+                        <input type="password" placeholder="Password" name="password">
+                        <% if (errors && errors.password) { %>
+                            <span class="error">
+                                <%= errors.password %>
+                            </span>
+                            <% } %>
+                                <label for="cpassword">Confirm Password</label>
+                                <input type="password" placeholder="Confirm Password" name="cpassword">
+                                <% if (errors && errors.cpassword) { %>
+                                    <span class="error">
+                                        <%= errors.cpassword %>
+                                    </span>
+                                    <% } %>
+                                        <% if (errors && errors.userExists) { %>
+                                            <span class="error">
+                                                <%= errors.userExists %>
+                                            </span>
+                                            <% } %>
+                                                <button type="submit">Register</button>
+                                                <br>
+                                                <a href="/user/login">Already have an account? Login Here</a>
+    </form>
+</body>
+
+</html>

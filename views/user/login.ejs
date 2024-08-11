@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form method="POST" action="/user/login">
+        <h3>Login</h3>
+        <label for="email">Email</label>
+        <input type="text" placeholder="Email" name="email">
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" name="password">
+        <% if (errors && errors.error) { %>
+            <span class="error">
+                <%= errors.error %>
+            </span>
+            <% } %>
+                <button type="submit">Log In</button>
+
+                <a href="/user/register">Do not have an account? Register Here</a>
+    </form>
+</body>
+
+</html>

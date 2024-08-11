@@ -1,0 +1,61 @@
+<%- include('../common/heading') %>
+
+    <h1>Manage Posts</h1>
+    <% if (typeof msg !=='undefined' && msg!='' ) { %>
+        <p class="msg-success auto-hide">
+            <%= msg %>
+        </p>
+        <% } %>
+            <% if (typeof error !=='undefined' && error!='' ) { %>
+                <p class="msg-error auto-hide">
+                    <%= error %>
+                </p>
+                <% } %>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Created At</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (allPosts.length>0) { %>
+                                <% allPosts.forEach(page=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= page.title %>
+                                        </td>
+                                        <td>
+                                            <%= page.author %>
+                                        </td>
+                                        <td>
+                                            <%= page.createdAt %>
+                                        </td>
+                                        <td>
+                                            <a href="/page/create?id=<%= page._id %>">Edit</a>
+                                        </td>
+                                        <td>
+                                            <a href="/page/delete?id=<%= page._id %>">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <% }); } else{ %>
+                                        <tr>
+                                            <td colspan="5">No posts found.</td>
+                                        </tr>
+                                        <% }%>
+                        </tbody>
+                    </table>
+                    </div>
+                    <script>
+                        setTimeout(function () {
+                            $(".msg-success").fadeOut();
+                        }, 5000);
+                        setTimeout(function () {
+                            $(".msg-error").fadeOut();
+                        }, 5000);
+                    </script>
+                    </body>
+                    <%- include('../common/footer') %>
